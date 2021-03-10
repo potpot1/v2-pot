@@ -15,7 +15,7 @@ gh_proxy="gh-proxy.phlin.workers.dev"
 
 cf_node_default="icook.tw"
 
-cf_port_default=443
+cf_port_default="2053"
 
 log_path="/var/log/xPOT.log"
 
@@ -362,7 +362,7 @@ set_xray() {
 {
   "inbounds": [
     {
-      "port": "$123",
+      "port": "2053",
       "protocol": "vless",
       "settings": {
         "clients": [
