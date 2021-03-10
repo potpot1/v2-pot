@@ -729,8 +729,8 @@ show_menu() {
 }
 
 menu() {
-  colorEcho ${YELLOW} "JOHN-JOHN SCRIPT v${VERSION}"
-  colorEcho ${YELLOW} "USE AT YOUR OWN RISK"
+  colorEcho ${YELLOW} "---------------------JOHN-JOHN SCRIPT v${VERSION}"
+  colorEcho ${YELLOW} "-------------------------USE AT YOUR OWN RISK"
 
   #check_status
 
