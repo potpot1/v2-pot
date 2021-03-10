@@ -689,6 +689,7 @@ show_menu() {
   if [ -f "/usr/local/bin/xray" ]; then
   echo "-SABIHIN MO MARAMING SALAMAT KAY BOSS/MASTER/AMO ----LILONE---"
   echo "-----LILONE LANG SAKALAM----------"
+  echo "123) Change PORT"
   echo "----------Domain name management(OPTIONS BRO)----------"
   echo "1) I-repaire ang certificate / palitan ang domain name"
   echo "2) Custom Cloudflare node"
