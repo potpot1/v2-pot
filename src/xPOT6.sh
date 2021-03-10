@@ -14,7 +14,9 @@ api_proxy="gh-api.phlin.workers.dev"
 gh_proxy="gh-proxy.phlin.workers.dev"
 
 cf_node_default="icook.tw"
-cf_port_default="2053"
+
+cf_port_default="443"
+
 log_path="/var/log/xPOT.log"
 
 if [[ $(/usr/bin/id -u) -ne 0 ]]; then
@@ -166,45 +168,46 @@ show_links() {
     local path="$(read_json /usr/local/etc/xray/05_inbounds_ss.json '.inbounds[0].streamSettings.wsSettings.path')"
     local sni="$(read_json /usr/local/etc/xray/05_inbounds_vless.json '.inbounds[0].tag')"
     local cf_node="$(read_json /usr/local/etc/xray/05_inbounds_ss.json '.inbounds[0].tag')"
+    local cf_port="$(read_json /usr/local/etc/xray/05_inbounds_vless.json '.inbounds[0].port')"
     # path ss+ws: /[base], path vless+ws: /[base]ws, path vmess+ws: /[base]wss, path trojan+ws: /[base]tj
 
     colorEcho ${YELLOW} "=============== HETO MGA LINKS BRO PILI  KA LANG (DIRECT CONNECTION ITO BRO)==============="
     colorEcho ${BLUE} "VLESS XTLS"
     #https://github.com/XTLS/Xray-core/issues/91
-    local uri_vless="${uuid}@${sni}:2053?security=xtls&flow=rprx-xtls-direct#`urlEncode "${sni} (VLESS)"`"
+    local uri_vless="${uuid}@${sni}:${cf_port}?security=xtls&flow=rprx-xtls-direct#`urlEncode "${sni} (VLESS)"`"
     printf "%s\n" "vless://${uri_vless}"
-    printf "(WSS) %s:2053 %s %s\n" "${sni}" "${uuid}" "${path}ws"
+    printf "(WSS) %s:${cf_port}%s %s\n" "${sni}" "${uuid}" "${path}ws"
     echo ""
 
     colorEcho ${BLUE} "Trojan TLS"
-    local uri_trojan="${uuid}@${sni}:2053?peer=${sni}&sni=${sni}#`urlEncode "${sni} (Trojan)"`"
+    local uri_trojan="${uuid}@${sni}:${cf_port}?peer=${sni}&sni=${sni}#`urlEncode "${sni} (Trojan)"`"
     printf "%s\n" "trojan://${uri_trojan}"
     echo ""
 
     colorEcho ${BLUE} "Shadowsocks"
     local user_ss="$(printf %s "aes-128-gcm:${uuid}" | base64 --wrap=0)"
-    local uri_ss="${user_ss}@${sni}:2053/?plugin=`urlEncode "v2ray-plugin;tls;mode=websocket;host=${sni};path=${path};mux=0"`#`urlEncode "${sni} (SS)"`"
+    local uri_ss="${user_ss}@${sni}:${cf_port}/?plugin=`urlEncode "v2ray-plugin;tls;mode=websocket;host=${sni};path=${path};mux=0"`#`urlEncode "${sni} (SS)"`"
     printf "%s\n" "ss://${uri_ss}"
     echo ""
 
     colorEcho ${YELLOW} "===============SHARE LINK ITO BRO (CDN)==============="
     colorEcho ${BLUE} "VLESS WSS"
     #https://github.com/XTLS/Xray-core/issues/91
-    local uri_vless_wss="${uuid}@${cf_node}:2053?type=ws&security=tls&host=${sni}&path=`urlEncode ${path}ws`&sni=${sni}#`urlEncode "${sni} (VLESS+WSS)"`"
+    local uri_vless_wss="${uuid}@${cf_node}:${cf_port}?type=ws&security=tls&host=${sni}&path=`urlEncode ${path}ws`&sni=${sni}#`urlEncode "${sni} (VLESS+WSS)"`"
     printf "%s\n" "vless://${uri_vless_wss}"
     echo ""
 
     colorEcho ${BLUE} "Trojan WSS"
-    local uri_trojango="${uuid}@${sni}:2053?sni=${sni}&type=ws&host=${sni}&path=`urlEncode "${path}tj"`#`urlEncode "${sni} (Trojan-Go)"`"
-    local uri_trojango_cf="${uuid}@${cf_node}:2053?sni=${sni}&type=ws&host=${sni}&path=`urlEncode "${path}tj"`#`urlEncode "${sni} (Trojan-Go)"`"
+    local uri_trojango="${uuid}@${sni}:${cf_port}?sni=${sni}&type=ws&host=${sni}&path=`urlEncode "${path}tj"`#`urlEncode "${sni} (Trojan-Go)"`"
+    local uri_trojango_cf="${uuid}@${cf_node}:${cf_port}?sni=${sni}&type=ws&host=${sni}&path=`urlEncode "${path}tj"`#`urlEncode "${sni} (Trojan-Go)"`"
     printf "%s\n" "trojan-go://${uri_trojango_cf}" "trojan-go://${uri_trojango}"
     colorEcho ${YELLOW} "because Trojan-Go The format of the sharing link has not been finalized. If your client cannot parse this link, please fill in the connection information manually"
-    printf "%s:2053 %s %s\n" "${sni}" "${uuid}" "${path}tj"
+    printf "%s:${cf_port} %s %s\n" "${sni}" "${uuid}" "${path}tj"
     echo ""
 
     colorEcho ${BLUE} "Shadowsocks"
     local user_ss="$(printf %s "aes-128-gcm:${uuid}" | base64 --wrap=0)"
-    local uri_ss="${user_ss}@${cf_node}:2053/?plugin=`urlEncode "v2ray-plugin;tls;mode=websocket;host=${sni};path=${path};mux=0"`#`urlEncode "${sni} (SS)"`"
+    local uri_ss="${user_ss}@${cf_node}:${cf_port}/?plugin=`urlEncode "v2ray-plugin;tls;mode=websocket;host=${sni};path=${path};mux=0"`#`urlEncode "${sni} (SS)"`"
     printf "%s\n" "ss://${uri_ss}"
     echo ""
     colorEcho ${YELLOW} "========================================"
@@ -705,18 +708,18 @@ rm_xwall() {
 show_menu() {
   echo ""
   if [ -f "/usr/local/bin/xray" ]; then
-  echo "-SABIHIN MO MARAMING SALAMAT KAY BOSS/MASTER/AMO ----LILONE---"
-  echo "-----LILONE LANG SAKALAM----------"
-  echo "123) Change PORT"
+  echo "------------------OPTION PANEL-------------------------"
+  echo "--------------TO GOD BE THE GLORY----------------------"
+  echo "123----------------Change PORT-------------------------"
   echo "----------Domain name management(OPTIONS BRO)----------"
-  echo "1) I-repaire ang certificate / palitan ang domain name"
+  echo "1) I-repaire ang certificate/palitan ang domain name"
   echo "2) Custom Cloudflare node"
   echo "----------Display configuration(LINKS MO BRO)----------"
-  echo "3) IPAKITA MGA LINK"
-  echo "----------MGA PUWEDE MONG I-UPDATE----------"
+  echo "3) Ipakita mga Links"
+  echo "----------Mga pwedeng i-update ------------------------"
   echo "4) I-update ang xray-core"
   echo "5) I-update ang trojan-go"
-  echo "----------DITO DINEDELETE ANG SCRIPT NA ITO----------"
+  echo "----------Dito dinedelete ang buong script-------------"
   echo "6) Uninstall script and all components"
   else
   echo "0) installation VLESS + Trojan"
@@ -726,8 +729,8 @@ show_menu() {
 }
 
 menu() {
-  colorEcho ${YELLOW} "Proxy tools automated script v${VERSION}"
-  colorEcho ${YELLOW} "special thanks to: lilone"
+  colorEcho ${YELLOW} "JOHN-JOHN SCRIPT v${VERSION}"
+  colorEcho ${YELLOW} "USE AT YOUR OWN RISK"
 
   #check_status
 
