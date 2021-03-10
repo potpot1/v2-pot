@@ -708,7 +708,7 @@ show_menu() {
 
 menu() {
   colorEcho ${YELLOW} "Proxy tools automated script v${VERSION}"
-  colorEcho ${YELLOW} "author: phlinhng"
+  colorEcho ${YELLOW} "special thanks to: lilone"
 
   #check_status
 
