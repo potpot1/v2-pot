@@ -115,7 +115,7 @@ writeLog() {
 }
 
 continue_prompt() {
-  read -rp "继续其他操作 (yes/no)? " choice
+  read -rp "Gusto mo pa bang magpatuloy sa mga OPTIONS BRO (yes/no)? " choice
   case "${choice}" in
     [yY]|[yY][eE][sS] ) return 0 ;;
     * ) exit 0;;
@@ -168,43 +168,43 @@ show_links() {
     local cf_node="$(read_json /usr/local/etc/xray/05_inbounds_ss.json '.inbounds[0].tag')"
     # path ss+ws: /[base], path vless+ws: /[base]ws, path vmess+ws: /[base]wss, path trojan+ws: /[base]tj
 
-    colorEcho ${YELLOW} "===============分 享 链 接 (直连)==============="
+    colorEcho ${YELLOW} "=============== HETO MGA LINKS BRO PILI  KA LANG (DIRECT CONNECTION ITO BRO)==============="
     colorEcho ${BLUE} "VLESS XTLS"
     #https://github.com/XTLS/Xray-core/issues/91
-    local uri_vless="${uuid}@${sni}:443?security=xtls&flow=rprx-xtls-direct#`urlEncode "${sni} (VLESS)"`"
+    local uri_vless="${uuid}@${sni}:2053?security=xtls&flow=rprx-xtls-direct#`urlEncode "${sni} (VLESS)"`"
     printf "%s\n" "vless://${uri_vless}"
-    printf "(WSS) %s:443 %s %s\n" "${sni}" "${uuid}" "${path}ws"
+    printf "(WSS) %s:2053 %s %s\n" "${sni}" "${uuid}" "${path}ws"
     echo ""
 
     colorEcho ${BLUE} "Trojan TLS"
-    local uri_trojan="${uuid}@${sni}:443?peer=${sni}&sni=${sni}#`urlEncode "${sni} (Trojan)"`"
+    local uri_trojan="${uuid}@${sni}:2053?peer=${sni}&sni=${sni}#`urlEncode "${sni} (Trojan)"`"
     printf "%s\n" "trojan://${uri_trojan}"
     echo ""
 
     colorEcho ${BLUE} "Shadowsocks"
     local user_ss="$(printf %s "aes-128-gcm:${uuid}" | base64 --wrap=0)"
-    local uri_ss="${user_ss}@${sni}:443/?plugin=`urlEncode "v2ray-plugin;tls;mode=websocket;host=${sni};path=${path};mux=0"`#`urlEncode "${sni} (SS)"`"
+    local uri_ss="${user_ss}@${sni}:2053/?plugin=`urlEncode "v2ray-plugin;tls;mode=websocket;host=${sni};path=${path};mux=0"`#`urlEncode "${sni} (SS)"`"
     printf "%s\n" "ss://${uri_ss}"
     echo ""
 
-    colorEcho ${YELLOW} "===============分 享 链 接 (CDN)==============="
+    colorEcho ${YELLOW} "===============SHARE LINK ITO BRO (CDN)==============="
     colorEcho ${BLUE} "VLESS WSS"
     #https://github.com/XTLS/Xray-core/issues/91
-    local uri_vless_wss="${uuid}@${cf_node}:443?type=ws&security=tls&host=${sni}&path=`urlEncode ${path}ws`&sni=${sni}#`urlEncode "${sni} (VLESS+WSS)"`"
+    local uri_vless_wss="${uuid}@${cf_node}:2053?type=ws&security=tls&host=${sni}&path=`urlEncode ${path}ws`&sni=${sni}#`urlEncode "${sni} (VLESS+WSS)"`"
     printf "%s\n" "vless://${uri_vless_wss}"
     echo ""
 
     colorEcho ${BLUE} "Trojan WSS"
-    local uri_trojango="${uuid}@${sni}:443?sni=${sni}&type=ws&host=${sni}&path=`urlEncode "${path}tj"`#`urlEncode "${sni} (Trojan-Go)"`"
-    local uri_trojango_cf="${uuid}@${cf_node}:443?sni=${sni}&type=ws&host=${sni}&path=`urlEncode "${path}tj"`#`urlEncode "${sni} (Trojan-Go)"`"
+    local uri_trojango="${uuid}@${sni}:2053?sni=${sni}&type=ws&host=${sni}&path=`urlEncode "${path}tj"`#`urlEncode "${sni} (Trojan-Go)"`"
+    local uri_trojango_cf="${uuid}@${cf_node}:2053?sni=${sni}&type=ws&host=${sni}&path=`urlEncode "${path}tj"`#`urlEncode "${sni} (Trojan-Go)"`"
     printf "%s\n" "trojan-go://${uri_trojango_cf}" "trojan-go://${uri_trojango}"
-    colorEcho ${YELLOW} "因 Trojan-Go 分享链接格式尚未定案，若您的客户端无法解析此链接，请手动填写连接信息"
-    printf "%s:443 %s %s\n" "${sni}" "${uuid}" "${path}tj"
+    colorEcho ${YELLOW} "because Trojan-Go The format of the sharing link has not been finalized. If your client cannot parse this link, please fill in the connection information manually"
+    printf "%s:2053 %s %s\n" "${sni}" "${uuid}" "${path}tj"
     echo ""
 
     colorEcho ${BLUE} "Shadowsocks"
     local user_ss="$(printf %s "aes-128-gcm:${uuid}" | base64 --wrap=0)"
-    local uri_ss="${user_ss}@${cf_node}:443/?plugin=`urlEncode "v2ray-plugin;tls;mode=websocket;host=${sni};path=${path};mux=0"`#`urlEncode "${sni} (SS)"`"
+    local uri_ss="${user_ss}@${cf_node}:2053/?plugin=`urlEncode "v2ray-plugin;tls;mode=websocket;host=${sni};path=${path};mux=0"`#`urlEncode "${sni} (SS)"`"
     printf "%s\n" "ss://${uri_ss}"
     echo ""
     colorEcho ${YELLOW} "========================================"
@@ -539,13 +539,13 @@ EOF
 fix_cert() {
   if [ -f "/usr/local/bin/xray" ]; then
     while true; do
-      read -rp "解析到本 VPS 的域名: " V2_DOMAIN
+      read -rp "Resolve to this VPS Domain name: " V2_DOMAIN
       if checkIP "${V2_DOMAIN}"; then
-        colorEcho $LYELLOW "域名 ${V2_DOMAIN} 解析正确, 即将开始修复证书"
+        colorEcho $LYELLOW "domain name ${V2_DOMAIN} Parsed correctly, The certificate will be repaired soon"
         break
       else
-        colorEcho ${RED} "域名 ${V2_DOMAIN} 解析有误 (yes: 强制继续, no: 重新输入, quit: 离开)"
-        read -rp "若您确定域名解析正确, 可以继续进行修复作业. 强制继续? (yes/no/quit) " forceConfirm
+        colorEcho ${RED} "The domain name ${V2_DOMAIN} is parsed incorrectly (yes: force to continue, no: re-enter, quit: leave) PUMILI NG MAAYOS BRO"
+        read -rp "If you are sure that the domain name is resolved correctly, you can continue the repair operation. Force to continue? (yes/no/quit) " forceConfirm
         case "${forceConfirm}" in
           [yY]|[yY][eE][sS] ) break ;;
           [qQ]|[qQ][uU][iI][tT] ) return 0;;
@@ -572,10 +572,10 @@ fix_cert() {
 
     write_json /usr/local/etc/xray/05_inbounds_vless.json ".inbounds[0].tag" "\"${V2_DOMAIN}\""
 
-    colorEcho $LGREEN "证书修复完成"
+    colorEcho $LGREEN "Certificate repair completed"
     show_links
   else
-    colorEcho ${YELLOW} "请先安装 XRay"
+    colorEcho ${YELLOW} "Please install first XRay"
   fi
 }
 
@@ -687,20 +687,22 @@ rm_xwall() {
 show_menu() {
   echo ""
   if [ -f "/usr/local/bin/xray" ]; then
-  echo "----------域名管理----------"
-  echo "1) 修复证书 / 更换域名"
-  echo "2) 自定义 Cloudflare 节点"
-  echo "----------显示配置----------"
-  echo "3) 显示链接"
-  echo "----------更新管理----------"
-  echo "4) 更新 xray-core"
-  echo "5) 更新 trojan-go"
-  echo "----------卸载脚本----------"
-  echo "6) 卸载脚本与全部组件"
+  echo "-SABIHIN MO MARAMING SALAMAT KAY BOSS/MASTER/AMO ----LILONE---"
+  echo "-----LILONE LANG SAKALAM----------"
+  echo "----------Domain name management(OPTIONS BRO)----------"
+  echo "1) I-repaire ang certificate / palitan ang domain name"
+  echo "2) Custom Cloudflare node"
+  echo "----------Display configuration(LINKS MO BRO)----------"
+  echo "3) IPAKITA MGA LINK"
+  echo "----------MGA PUWEDE MONG I-UPDATE----------"
+  echo "4) I-update ang xray-core"
+  echo "5) I-update ang trojan-go"
+  echo "----------DITO DINEDELETE ANG SCRIPT NA ITO----------"
+  echo "6) Uninstall script and all components"
   else
-  echo "0) 安装 VLESS + Trojan"
+  echo "0) installation VLESS + Trojan"
   fi
-  echo "7) 退出"
+  echo "7) drop out/EXIT"
   echo ""
 }
 
@@ -714,7 +716,7 @@ menu() {
 
   while true; do
     show_menu
-    read -rp "选择操作 [输入任意值退出]: " opt
+    read -rp "Select operation [Enter any value to exit]: " opt
     case "${opt}" in
       "0") install_xray && continue_prompt ;;
       "1") fix_cert && continue_prompt ;;
