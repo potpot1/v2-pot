@@ -10,18 +10,7 @@ To run the script again once downloaded, just use the following command:
 bash ~/xwall.sh
 ```
 
-## Features
-1. Higher offloading efficieny with xray-core frontend
-2. Support Debian9+, Ubuntu 16+ and CentOS 7+ operation systems
-3. Support both IPv4 and IPv6
-4. BuyPass CA Certificates
 
-## Architecture
-+ VLESS over TCP with [XTLS](https://github.com/XTLS/Go) powered by [xray-core](https://github.com/XTLS/xray-core)
-+ Trojan (protocol) and muxing powered by trojan-go (implementaion)
-+ Trojan over WSS on Cloudflare powered by trojan-go and Cloudflare
-+ Shadowsocks over WSS powered by [xray-core](https://github.com/XTLS/xray-core)
-+ HTTP Website backend powered by nginx
 
 ## Supported Protocols
 | Protocol | Transport | Mux | Direct | CDN | Qv2ray | Shadowrocket | Clash | v2rayN(G) |
@@ -33,10 +22,10 @@ bash ~/xwall.sh
 | Trojan | WSS | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
 | Shadowsocks | WSS | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 
-## Telegram
-https://t.me/technologyshare
 
 ## Credit
++ [@MASTER_LILONE]
++ [@phlinhng](https://github.com/phlinhng)
 + [Project V](https://www.v2fly.org/)
 + [V2Ray 配置指南](https://toutyrater.github.io/)
 + [新 V2Ray 白话文指南](https://guide.v2fly.org/)
@@ -55,8 +44,8 @@ https://t.me/technologyshare
 + [@nginx/nginx](https://github.com/nginx/nginx)
 + [@charlieethan/firewall-proxy](https://github.com/charlieethan/firewall-proxy)
 + [@XTLS/xray-core](https://github.com/XTLS/xray-core)
-+ [@phlinhng](https://github.com/phlinhng)
-+ [@MASTER_LILONE]
+
+
 
 ## Stargazers over time
 [![Stargazers over time](https://starchart.cc/phlinhng/v2ray-tcp-tls-web.svg)](https://starchart.cc/phlinhng/v2ray-tcp-tls-web)
