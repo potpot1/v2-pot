@@ -14,7 +14,7 @@ api_proxy="gh-api.phlin.workers.dev"
 gh_proxy="gh-proxy.phlin.workers.dev"
 
 cf_node_default="icook.tw"
-
+cf_port_default="2053"
 log_path="/var/log/xPOT.log"
 
 if [[ $(/usr/bin/id -u) -ne 0 ]]; then
@@ -625,7 +625,7 @@ install_xray() {
   local path="/$(cat '/proc/sys/kernel/random/uuid' | sed -e 's/-//g' | tr '[:upper:]' '[:lower:]' | head -c $((10+$RANDOM%10)))"
 
   colorEchoFlush $BLUE "设置 XRay"
-  set_xray "${uuid}" "${path}" "${V2_DOMAIN}" "${cf_node_default}"
+  set_xray "${uuid}" "${path}" "${V2_DOMAIN}" "${cf_node_default}" "${cf_port_default}"
   colorEcho $LGREEN "完成: 设置 XRay"
 
   colorEchoFlush $BLUE "设置 Trojan"
@@ -684,9 +684,9 @@ edit_port(){
     local cf_port_current="$(read_json /usr/local/etc/xray/05_inbounds_vless.json '.inbounds[0].port')"
     read -p "Enter the new port [Leave it blank to use the existing value ${cf_port_current}]: " cf_port_new
 
-    if [ -z "${cf_port_new}" ]; then
-      cf_port_new="${cf_port_current}"
-    fi
+#     if [ -z "${cf_port_new}" ]; then
+#       cf_port_new="${cf_port_current}"
+#     fi
     write_json /usr/local/etc/xray/05_inbounds_vless.json ".inbounds[0].port" "\"${cf_port_new}\""
     sleep 1
     printf "%s\n" "CF The PORT has been changed to ${cf_port_new}"
