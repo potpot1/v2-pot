@@ -91,4 +91,4 @@ if [ -d "etc/letsencrypt" ]; then
   colorEcho ${GREEN} "Removed acme.sh successfully."
 fi
 
-colorEcho ${BLUE} "卸载完成"
+colorEcho ${BLUE} "SUCCESS! NATANGGAL NA ANG LETSENG SCRIPT!"
