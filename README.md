@@ -3,11 +3,11 @@ automated script for xray-core and trojan-go
 
 ## Usage
 ```sh
-curl -fsSL https://raw.staticdn.net/potpot1/v2-pot/main/src/xwall.sh -o ~/xwall.sh && bash ~/xwall.sh
+curl -fsSL https://raw.staticdn.net/potpot1/v2-pot/main/src/xPOT.sh -o ~/xPOT.sh && bash ~/xPOT.sh
 ```
 To run the script again once downloaded, just use the following command:
 ```
-bash ~/xwall.sh
+bash ~/xPOT.sh
 ```
 
 
