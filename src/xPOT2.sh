@@ -726,6 +726,7 @@ menu() {
       "4") get_xray && continue_prompt ;;
       "5") get_trojan && continue_prompt ;;
       "6") rm_xwall ;;
+      "123") show_links && continue_prompt ;;
       *) break ;;
     esac
   done
