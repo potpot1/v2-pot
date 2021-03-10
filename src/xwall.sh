@@ -580,18 +580,18 @@ fix_cert() {
 }
 
 install_xray() {
-  colorEchoFlush $BLUE "安装依赖包 coreutils curl wget unzip jq certbot nginx"
+  colorEchoFlush $BLUE "Install dependencies coreutils curl wget unzip jq certbot nginx"
   preinstall 2>&1 | writeLog >> $log_path
-  colorEcho $LGREEN "完成: 安装依赖包 coreutils curl wget unzip jq certbot nginx"
+  colorEcho $LGREEN "Finish: install dependencies coreutils curl wget unzip jq certbot nginx"
 
   while true; do
-    read -rp "解析到本 VPS 的域名: " V2_DOMAIN
+    read -rp "Resolve to the domain name of this VPS: " V2_DOMAIN
     if checkIP "${V2_DOMAIN}"; then
-      colorEcho $LYELLOW "域名 ${V2_DOMAIN} 解析正确, 即将开始安装"
+      colorEcho $LYELLOW "domain name ${V2_DOMAIN} The analysis is correct, and the installation will start soon"
       break
     else
-      colorEcho ${RED} "域名 ${V2_DOMAIN} 解析有误 (yes: 强制继续, no: 重新输入, quit: 离开)"
-      read -rp "若您确定域名解析正确, 可以继续进行安装作业. 强制继续? (yes/no/quit) " forceConfirm
+      colorEcho ${RED} "The domain name ${V2_DOMAIN} is parsed incorrectly (yes: force to continue, no: re-enter, quit: leave)"
+      read -rp "If you are sure that the domain name is resolved correctly, you can continue the installation operation. Force to continue? (yes/no/quit) " forceConfirm
       case "${forceConfirm}" in
         [yY]|[yY][eE][sS] ) break ;;
         [qQ]|[qQ][uU][iI][tT] ) return 0 ;;
@@ -648,7 +648,7 @@ install_xray() {
   systemctl restart trojan-go 2>&1 | writeLog >> $log_path
   systemctl restart xray 2>&1 | writeLog >> $log_path
 
-  colorEcho $LGREEN "安装 XRay + Trojan-Go 成功!"
+  colorEcho $LGREEN "CONGRATS BRO! NAINSTALL MO NA ANG XRay + Trojan-Go!"
   show_links
 }
 
