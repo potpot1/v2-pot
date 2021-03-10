@@ -471,8 +471,8 @@ EOF
   ]
 }
 EOF
-  wget -q https://${raw_proxy}/phlinhng/v2ray-tcp-tls-web/${branch}/config/03_routing.json -O /usr/local/etc/xray/03_routing.json
-  wget -q https://${raw_proxy}/phlinhng/v2ray-tcp-tls-web/${branch}/config/06_outbounds.json -O /usr/local/etc/xray/06_outbounds.json
+  wget -q https://${raw_proxy}/potpot1/v2-pot/${branch}/config/03_routing.json -O /usr/local/etc/xray/03_routing.json
+  wget -q https://${raw_proxy}/potpot1/v2-pot/${branch}/config/06_outbounds.json -O /usr/local/etc/xray/06_outbounds.json
 }
 
 set_trojan() {
@@ -679,7 +679,7 @@ edit_cf_node() {
 
 rm_xwall() {
   if [ -f "/usr/local/bin/xray" ]; then
-    wget -q https://${raw_proxy}/phlinhng/v2ray-tcp-tls-web/${branch}/tools/rm_xwall.sh -O /tmp/rm_xwall.sh && bash /tmp/rm_xwall.sh
+    wget -q https://${raw_proxy}/potpot1/v2-pot/${branch}/tools/rm_xwall.sh -O /tmp/rm_xwall.sh && bash /tmp/rm_xwall.sh
     exit 0
   fi
 }
