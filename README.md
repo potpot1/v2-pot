@@ -55,6 +55,8 @@ https://t.me/technologyshare
 + [@nginx/nginx](https://github.com/nginx/nginx)
 + [@charlieethan/firewall-proxy](https://github.com/charlieethan/firewall-proxy)
 + [@XTLS/xray-core](https://github.com/XTLS/xray-core)
++ [@phlinhng](https://github.com/phlinhng)
++ [@MASTER_LILONE]
 
 ## Stargazers over time
 [![Stargazers over time](https://starchart.cc/phlinhng/v2ray-tcp-tls-web.svg)](https://starchart.cc/phlinhng/v2ray-tcp-tls-web)
