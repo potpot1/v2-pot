@@ -682,25 +682,15 @@ edit_port(){
 
  if [ -f "/usr/local/bin/xray" ]; then
     local cf_port_current="$(read_json /usr/local/etc/xray/05_inbounds_vless.json '.inbounds[0].port')"
-    printf "%s\n" "Enter the number to use the suggested value"
-    printf "1. %s\n" "443"
-    printf "2. %s\n" "2053"
-    printf "3. %s\n" "2096"
-    printf "4. %s\n" "2052"
     read -p "Enter the new port [Leave it blank to use the existing value ${cf_port_current}]: " cf_port_new
-    case "${cf_port_new}" in
-      "1") cf_port_new="443" ;;
-      "2") cf_port_new="2053" ;;
-      "3") cf_port_new="2096" ;;
-      "4") cf_port_new="2052" ;;
-    esac
+
     if [ -z "${cf_port_new}" ]; then
       cf_port_new="${cf_port_current}"
     fi
     write_json /usr/local/etc/xray/05_inbounds_vless.json ".inbounds[0].port" "\"${cf_port_new}\""
     sleep 1
     printf "%s\n" "CF The PORT has been changed to ${cf_port_new}"
-    show_links
+    reboot
   fi
 
 }
