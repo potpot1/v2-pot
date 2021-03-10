@@ -358,7 +358,7 @@ set_xray() {
 {
   "inbounds": [
     {
-      "port": 443,
+      "port": 2053,
       "protocol": "vless",
       "settings": {
         "clients": [
