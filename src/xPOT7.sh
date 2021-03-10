@@ -15,7 +15,7 @@ gh_proxy="gh-proxy.phlin.workers.dev"
 
 cf_node_default="icook.tw"
 
-cf_port_default="443"
+cf_port_default=443
 
 log_path="/var/log/xPOT.log"
 
@@ -710,7 +710,7 @@ show_menu() {
   if [ -f "/usr/local/bin/xray" ]; then
   echo "------------------OPTION PANEL-------------------------"
   echo "--------------TO GOD BE THE GLORY----------------------"
-  echo "123----------------Change PORT-------------------------"
+  echo "123)----------------Change PORT------------------------"
   echo "----------Domain name management(OPTIONS BRO)----------"
   echo "1) I-repaire ang certificate/palitan ang domain name"
   echo "2) Custom Cloudflare node"
