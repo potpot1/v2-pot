@@ -353,12 +353,13 @@ set_xray() {
   # $2: base path
   # $3: sni
   # $4: url of cf node
+  # $123: port
   # 3564: trojan, 3565: ss, 3566: vless+wss
   cat > "/usr/local/etc/xray/05_inbounds_vless.json" <<-EOF
 {
   "inbounds": [
     {
-      "port": 2053,
+      "port": "$123",
       "protocol": "vless",
       "settings": {
         "clients": [
@@ -677,6 +678,33 @@ edit_cf_node() {
   fi
 }
 
+edit_port(){
+
+ if [ -f "/usr/local/bin/xray" ]; then
+    local cf_port_current="$(read_json /usr/local/etc/xray/05_inbounds_vless.json '.inbounds[0].port')"
+    printf "%s\n" "Enter the number to use the suggested value"
+    printf "1. %s\n" "443"
+    printf "2. %s\n" "2053"
+    printf "3. %s\n" "2096"
+    printf "4. %s\n" "2052"
+    read -p "Enter the new port [Leave it blank to use the existing value ${cf_port_current}]: " cf_port_new
+    case "${cf_port_new}" in
+      "1") cf_port_new="443" ;;
+      "2") cf_port_new="2053" ;;
+      "3") cf_port_new="2096" ;;
+      "4") cf_port_new="2052" ;;
+    esac
+    if [ -z "${cf_port_new}" ]; then
+      cf_port_new="${cf_port_current}"
+    fi
+    write_json /usr/local/etc/xray/05_inbounds_vless.json ".inbounds[0].port" "\"${cf_port_new}\""
+    sleep 1
+    printf "%s\n" "CF The PORT has been changed to ${cf_port_new}"
+    show_links
+  fi
+
+}
+
 rm_xwall() {
   if [ -f "/usr/local/bin/xray" ]; then
     wget -q https://${raw_proxy}/potpot1/v2-pot/${branch}/tools/rm_xwall.sh -O /tmp/rm_xwall.sh && bash /tmp/rm_xwall.sh
@@ -726,7 +754,7 @@ menu() {
       "4") get_xray && continue_prompt ;;
       "5") get_trojan && continue_prompt ;;
       "6") rm_xwall ;;
-      "123") show_links && continue_prompt ;;
+      "123") edit_port && continue_prompt ;;
       *) break ;;
     esac
   done
