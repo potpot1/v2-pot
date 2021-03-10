@@ -15,7 +15,7 @@ gh_proxy="gh-proxy.phlin.workers.dev"
 
 cf_node_default="icook.tw"
 
-log_path="/var/log/xwall.log"
+log_path="/var/log/xPOT.log"
 
 if [[ $(/usr/bin/id -u) -ne 0 ]]; then
   echo "您不是 root 用户！请先输入 sudo -i 切换至 root 用户再运行本脚本"
